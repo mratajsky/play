@@ -10,7 +10,6 @@
 ABOUT-NLS
 Make.common
 Makefile
-Makefile.in
 aclocal.m4
 config
 config.h
