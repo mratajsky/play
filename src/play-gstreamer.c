@@ -513,10 +513,6 @@ static gboolean gstreamer_gst_initialize (PlayGstreamer *gstreamer, GError **err
     // Audio sink
     sink = gst_element_factory_make ("autoaudiosink", NULL);
     if (!sink) {
-        // Fall back to automatic selection or ALSA
-        sink = gst_element_factory_make ("alsasink", NULL);
-    }
-    if (!sink) {
         g_set_error (
             error,
             PLAY_GSTREAMER_ERROR,
