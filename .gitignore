@@ -13,7 +13,6 @@ Makefile
 aclocal.m4
 config
 config.h
-config.h.in
 config.log
 config.status
 gettext.m4
