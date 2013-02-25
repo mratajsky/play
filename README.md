@@ -13,13 +13,13 @@ The important features are:
 Keyboard controls
 =================
 
-  * Left/Right arrow    Seek 10 seconds backward/forward
-  * Down/Up arrow       Seek 1 minute backward/forward
-  * Page up/Page down   Switch to the next/previous track
-  * +/-                 Increase or decrease the volume
-  * P key or space      Pause/unpause
-  * M key               Mute/unmute
-  * Q key or ESC        Quit the program
+  * Left/Right arrow:    Seek 10 seconds backward/forward
+  * Down/Up arrow:       Seek 1 minute backward/forward
+  * Page up/Page down:   Switch to the next/previous track
+  * + and - keys:        Increase or decrease the volume
+  * P key or space:      Pause/unpause
+  * M key:               Mute/unmute
+  * Q key or ESC:        Quit the program
 
 Required libraries
 ==================
