@@ -4,6 +4,8 @@
 *.la
 *~
 *.cache
+*.sublime-project
+*.sublime-workspace
 *.tar.gz
 ABOUT-NLS
 Make.common
@@ -11,13 +13,10 @@ Makefile
 Makefile.in
 aclocal.m4
 config
-config.guess
 config.h
 config.h.in
 config.log
 config.status
-config.sub
-configure
 gettext.m4
 intl
 pkginfo
