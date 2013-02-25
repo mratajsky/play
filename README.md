@@ -28,8 +28,8 @@ Required libraries
   * Libxml2
   * GStreamer version 0.10 with at least the "base" and "good" plugin sets
 
-Optional:
----------
+Optional libraries
+==================
 
   * GStreamer "bad" and "ugly" plugin sets to handle various file formats
   * GVFS to allow access to remote playlists
