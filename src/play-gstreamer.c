@@ -1,17 +1,11 @@
 /**
  * PLAY
  * play-gstreamer.c: GStreamer library backend
- * Copyright (C) 2011-2013 Michal Ratajsky <michal.ratajsky@gmail.com>
+ * Copyright (C) 2011-2014 Michal Ratajsky <michal.ratajsky@gmail.com>
  */
 #include "play-common.h"
 #include "play-gstreamer.h"
 #include "play-queue-item.h"
-
-#ifdef GSTREAMER_1_0 // TODO
-  #define PLAY_GST_PLAYBIN "playbin"
-#else
-  #define PLAY_GST_PLAYBIN "playbin2"
-#endif
 
 // This enum is not present in any header file:
 // http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-plugins/html/gst-plugins-base-plugins-playbin2.html#GstPlayBin2--flags
@@ -401,12 +395,11 @@ gboolean play_gstreamer_toggle_mute (PlayGstreamer *gstreamer)
 // Returns TRUE if the duration was successfully retrieved
 gboolean play_gstreamer_get_duration (PlayGstreamer *gstreamer, gint64 *duration)
 {
-    GstFormat format = GST_FORMAT_TIME;
-    gint64    d;
+    gint64 d;
 
     g_return_val_if_fail (PLAY_IS_GSTREAMER (gstreamer), FALSE);
 
-    if (!gst_element_query_duration (gstreamer->pipe, &format, &d))
+    if (!gst_element_query_duration (gstreamer->pipe, GST_FORMAT_TIME, &d))
         return FALSE;
     if (d >= 0) {
         *duration = d;
@@ -420,12 +413,11 @@ gboolean play_gstreamer_get_duration (PlayGstreamer *gstreamer, gint64 *duration
 // Returns TRUE if the duration was successfully retrieved
 gboolean play_gstreamer_get_position (PlayGstreamer *gstreamer, gint64 *position)
 {
-    GstFormat format = GST_FORMAT_TIME;
-    gint64    p;
+    gint64 p;
 
     g_return_val_if_fail (PLAY_IS_GSTREAMER (gstreamer), FALSE);
 
-    if (!gst_element_query_position (gstreamer->pipe, &format, &p))
+    if (!gst_element_query_position (gstreamer->pipe, GST_FORMAT_TIME, &p))
         return FALSE;
     if (p >= 0) {
         *position = p;
@@ -439,33 +431,26 @@ gboolean play_gstreamer_get_position (PlayGstreamer *gstreamer, gint64 *position
 // Returns TRUE on success
 gboolean play_gstreamer_set_position (PlayGstreamer *gstreamer, gint64 offset)
 {
-    GstFormat format = GST_FORMAT_TIME;
-    gint64    p_current;
-    gint64    p_new;
-    gint64    d;
+    gint64 p, d;
 
     g_return_val_if_fail (PLAY_IS_GSTREAMER (gstreamer), FALSE);
 
     // Read the current position
-    if (!gst_element_query_position (gstreamer->pipe, &format, &p_current))
+    if (!gst_element_query_position (gstreamer->pipe, GST_FORMAT_TIME, &p))
         return FALSE;
-
-    // Seek to the new position
-    p_new = p_current + offset;
-    if (p_new < 0)
-        p_new = 0;
 
     // Seeking over the length of the current stream normally just causes
     // the stream to end but seeking on a paused stream would cause wrong
     // information to be displayed
-    if (gst_element_query_duration (gstreamer->pipe, &format, &d))
-        p_new = CLAMP (p_new, 0, d);
+    if (gst_element_query_duration (gstreamer->pipe, GST_FORMAT_TIME, &d))
+        p = CLAMP (p + offset, 0, d);
+    else
+        p = MAX (0, p + offset);
 
     return gst_element_seek_simple (
         gstreamer->playbin,
         GST_FORMAT_TIME,
-        GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT,
-        p_new);
+        GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT, p);
 }
 
 // Set the position in the current stream
@@ -497,9 +482,7 @@ static gboolean gstreamer_gst_initialize (PlayGstreamer *gstreamer, GError **err
     }
     // Gstreamer playbin
     // Might fail if the plugin is not present
-    gstreamer->playbin = gst_element_factory_make (
-        PLAY_GST_PLAYBIN,
-        NULL);
+    gstreamer->playbin = gst_element_factory_make ("playbin", NULL);
     if (!gstreamer->playbin) {
         g_set_error (
             error,

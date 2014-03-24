@@ -1,7 +1,7 @@
 /**
  * PLAY
- * play-gstreamer.h: GStreamer library backend
- * Copyright (C) 2011-2013 Michal Ratajsky <michal.ratajsky@gmail.com>
+ * play-gstreamer.h
+ * Copyright (C) 2011-2014 Michal Ratajsky <michal.ratajsky@gmail.com>
  */
 #ifndef _PLAY_GSTREAMER_H_
 #define _PLAY_GSTREAMER_H_
@@ -12,7 +12,7 @@
 G_BEGIN_DECLS
 
 typedef enum {
-    PLAY_GSTREAMER_STOPPED = 0,
+    PLAY_GSTREAMER_STOPPED,
     PLAY_GSTREAMER_PLAYING,
     PLAY_GSTREAMER_PAUSED
 } PlayGstreamerState;

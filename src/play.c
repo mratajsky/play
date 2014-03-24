@@ -373,6 +373,7 @@ static gboolean play_redraw (void)
                 } else {
                     // The terminal is not wide enough, the title is shortened
                     // and the string .. is appened
+                    // XXX breaks unicode chars
                     g_string_append_len (line, title, length - 3);
                     g_string_append (line, "..");
                 }
@@ -804,7 +805,7 @@ int main(int argc, char *argv[])
     // Add the command line options to the glib context
     g_option_context_add_main_entries (context, opts, NULL);
     // Add the backend command line options
-    g_option_context_add_group (context, gst_init_get_option_group());
+    g_option_context_add_group (context, gst_init_get_option_group ());
 
     // Parse the command line options and quit the program on error
     if (!g_option_context_parse (context, &argc, &argv, &err)) {
