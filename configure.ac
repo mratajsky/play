@@ -1,10 +1,11 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.60)
-AC_INIT(src/play.c)
-AM_CONFIG_HEADER(src/config.h)
+AC_INIT([play], [1.0])
+AC_CONFIG_SRCDIR([src/play.c])
+AC_CONFIG_HEADERS([src/config.h])
 
 dnl initialize automake
-AM_INIT_AUTOMAKE(play, 1.0)
+AM_INIT_AUTOMAKE
 
 dnl sets host_* variables
 AC_CANONICAL_HOST
@@ -48,10 +49,10 @@ AC_SUBST(LIBXML2_CFLAGS)
 AC_SUBST(LIBXML2_LIBS)
 
 dnl Check for gstreamer
-PKG_CHECK_MODULES(GSTREAMER, [gstreamer-0.10], , [
+PKG_CHECK_MODULES(GSTREAMER, [gstreamer-1.0], , [
                   AC_MSG_RESULT(no)
                   AC_MSG_ERROR([
-You must have the gstreamer0.10 development headers installed.
+You must have the gstreamer-1.0 development headers installed.
 ])])
 AC_SUBST(GSTREAMER_CFLAGS)
 AC_SUBST(GSTREAMER_LIBS)

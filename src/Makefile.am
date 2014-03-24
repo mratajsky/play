@@ -1,6 +1,4 @@
-# src/Makefile.am
-
-INCLUDES =							\
+AM_CPPFLAGS =						\
 		-Wall						\
 		-DDISABLE_DEPRECATED		\
 		$(GLIB_CFLAGS) 				\

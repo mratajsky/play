@@ -1,7 +1,6 @@
 TODO list for play:
 ===================
 
-- gstreamer 1.0 support
 - manual page
-- translations
+- translations?
 - handle the case where gstreamer gets stuck connecting to a server that doesn't respond
