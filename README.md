@@ -26,7 +26,7 @@ Required libraries
 
   * GLib version 2.18 or newer
   * Libxml2
-  * GStreamer version 0.10 with at least the "base" and "good" plugin sets
+  * GStreamer version 1.x with at least the "base" and "good" plugin sets
 
 Optional libraries
 ==================
